@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Merrylight Packhouse ERP</title>
+<meta name="theme-color" content="#201C40" />
+<link rel="manifest" href="./manifest.webmanifest" />
+<link rel="apple-touch-icon" href="./icon-180.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-title" content="Merrylight" />
+<style>
+html,body,#root{margin:0;min-height:100vh;background:#F3F4F9}
+.boot{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:system-ui,sans-serif;color:#6E6D85;font-size:14px}
+.boot-mark{display:grid;grid-template-columns:14px 14px;gap:5px;animation:bp 1.2s ease-in-out infinite}
+.boot-mark span{width:14px;height:14px;border-radius:50%}
+.boot-mark span:nth-child(1){background:#B9BEEC}.boot-mark span:nth-child(2){background:#7F86DE}
+.boot-mark span:nth-child(3){background:#7F86DE}.boot-mark span:nth-child(4){background:#4C46A8}
+@keyframes bp{0%,100%{opacity:1}50%{opacity:.35}}
+</style>
+<script src="./backend-config.js"></script>
+<script src="./storage.js"></script>
+</head>
+<body>
+<div id="root"><div class="boot"><div class="boot-mark"><span></span><span></span><span></span><span></span></div>Loading Merrylight…</div></div>
+<script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
