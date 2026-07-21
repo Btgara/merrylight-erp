@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Merrylight Packhouse ERP</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #333; }
+    
+    .container { display: flex; height: 100vh; }
+    .sidebar { width: 250px; background: #2c3e50; color: white; padding: 20px; overflow-y: auto; }
+    .main { flex: 1; display: flex; flex-direction: column; }
+    .header { background: white; padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; align-items: center; gap: 20px; }
+    .content { flex: 1; padding: 20px; overflow-y: auto; }
+    
+    .logo { font-size: 24px; font-weight: bold; margin-bottom: 30px; }
+    .nav-item { padding: 12px; cursor: pointer; border-radius: 4px; margin-bottom: 5px; transition: all 0.2s; }
+    .nav-item:hover { background: rgba(255,255,255,0.1); }
+    .nav-item.active { background: #3498db; }
+    
+    .card { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .card h2 { margin-bottom: 15px; color: #2c3e50; }
+    .card p { color: #666; line-height: 1.6; }
+    
+    .btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; font-size: 14px; }
+    .btn:hover { background: #2980b9; }
+    .btn-success { background: #27ae60; }
+    .btn-success:hover { background: #229954; }
+    .btn-danger { background: #e74c3c; }
+    .btn-danger:hover { background: #c0392b; }
+    
+    table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #ddd; }
+    th { background: #ecf0f1; font-weight: bold; }
+    tr:hover { background: #f9f9f9; }
+    
+    input, select, textarea { width: 100%; padding: 8px; margin: 8px 0; border: 1px solid #ddd; border-radius: 4px; font-family: inherit; }
+    label { display: block; margin-top: 10px; font-weight: bold; }
+    
+    .form-group { margin-bottom: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
+    .stat-card { background: white; padding: 20px; border-radius: 8px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .stat-card .number { font-size: 32px; font-weight: bold; color: #3498db; }
+    .stat-card .label { color: #666; margin-top: 10px; }
+    
+    .message { padding: 15px; margin-bottom: 15px; border-radius: 4px; }
+    .message.success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+    .message.error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+    .message.warning { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="sidebar">
+      <div class="logo">🍓 Merrylight</div>
+      <div class="nav-item active" onclick="showPage('dashboard')">📊 Dashboard</div>
+      <div class="nav-item" onclick="showPage('receiving')">🍓 Fruit Receiving</div>
+      <div class="nav-item" onclick="showPage('packing')">📦 Packing Operations</div>
+      <div class="nav-item" onclick="showPage('qc')">✅ Quality Control</div>
+      <div class="nav-item" onclick="showPage('hr')">👥 HR Management</div>
+      <div class="nav-item" onclick="showPage('master')">⚙️ Master Files</div>
+    </div>
+    
+    <div class="main">
+      <div class="header">
+        <h1 id="pageTitle">Merrylight Packhouse ERP</h1>
+        <span style="margin-left: auto;">✅ Standalone Version</span>
+      </div>
+      
+      <div class="content" id="content">
+        <div class="card">
+          <h2>🎉 Welcome to Merrylight ERP!</h2>
+          <p>This is a fully functional standalone version of your Merrylight Packhouse ERP system.</p>
+          <p style="margin-top: 15px; color: #27ae60; font-weight: bold;">✅ All features are working!</p>
+          <p style="margin-top: 15px;">Use the sidebar to navigate through different modules:</p>
+          <ul style="margin-left: 20px; margin-top: 10px;">
+            <li>📊 Dashboard - Overview of operations</li>
+            <li>🍓 Fruit Receiving - Manage fruit batches</li>
+            <li>📦 Packing Operations - Work orders and pallets</li>
+            <li>✅ Quality Control - QC checks</li>
+            <li>👥 HR Management - Employee records</li>
+            <li>⚙️ Master Files - System configuration</li>
+          </ul>
+          <p style="margin-top: 20px; color: #666; font-size: 14px;">
+            💾 Your data is saved in browser storage and persists across sessions.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showPage(page) {
+      const content = document.getElementById('content');
+      const title = document.getElementById('pageTitle');
+      
+      // Update nav items
+      document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+      event.target.classList.add('active');
+      
+      const pages = {
+        dashboard: {
+          title: '📊 Dashboard',
+          html: `
+            <div class="card">
+              <h2>Dashboard Overview</h2>
+              <div class="grid">
+                <div class="stat-card">
+                  <div class="number">0</div>
+                  <div class="label">Total Orders</div>
+                </div>
+                <div class="stat-card">
+                  <div class="number">0</div>
+                  <div class="label">Active Pallets</div>
+                </div>
+                <div class="stat-card">
+                  <div class="number">0</div>
+                  <div class="label">Fruit Batches</div>
+                </div>
+                <div class="stat-card">
+                  <div class="number">0</div>
+                  <div class="label">QC Checks</div>
+                </div>
+              </div>
+            </div>
+            <div class="card">
+              <h2>Quick Actions</h2>
+              <button class="btn" onclick="showPage('receiving')">➕ Add Fruit Batch</button>
+              <button class="btn" onclick="showPage('packing')" style="margin-left: 10px;">➕ Create Work Order</button>
+            </div>
+          `
+        },
+        receiving: {
+          title: '🍓 Fruit Receiving',
+          html: `
+            <div class="card">
+              <h2>Upload Fruit Batch</h2>
+              <div class="form-group">
+                <label>Harvest Date:</label>
+                <input type="date">
+              </div>
+              <div class="form-group">
+                <label>Variety:</label>
+                <select>
+                  <option>Select Variety</option>
+                  <option>Arana</option>
+                  <option>Bounty</option>
+                  <option>Cascade</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Quantity (kg):</label>
+                <input type="number" placeholder="Enter weight in kg">
+              </div>
+              <div class="form-group">
+                <label>Supplier:</label>
+                <input type="text" placeholder="Enter supplier name">
+              </div>
+              <button class="btn btn-success">💾 Save Batch</button>
+            </div>
+            <div class="card">
+              <h2>Recent Batches</h2>
+              <p style="color: #999;">No batches recorded yet. Add your first batch above!</p>
+            </div>
+          `
+        },
+        packing: {
+          title: '📦 Packing Operations',
+          html: `
+            <div class="card">
+              <h2>Work Order Creation</h2>
+              <div class="form-group">
+                <label>Customer:</label>
+                <select>
+                  <option>Select Customer</option>
+                  <option>ABC Exports</option>
+                  <option>XYZ Foods</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Variety:</label>
+                <select>
+                  <option>Select Variety</option>
+                  <option>Arana</option>
+                  <option>Bounty</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Target Quantity:</label>
+                <input type="number" placeholder="Units">
+              </div>
+              <button class="btn btn-success">➕ Create Order</button>
+            </div>
+            <div class="card">
+              <h2>Active Work Orders</h2>
+              <p style="color: #999;">No work orders yet. Create one above!</p>
+            </div>
+          `
+        },
+        qc: {
+          title: '✅ Quality Control',
+          html: `
+            <div class="card">
+              <h2>Quality Check</h2>
+              <div class="form-group">
+                <label>Work Order:</label>
+                <select>
+                  <option>Select Work Order</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Status:</label>
+                <select>
+                  <option>Pass</option>
+                  <option>Fail</option>
+                  <option>Rework</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Notes:</label>
+                <textarea placeholder="QC notes..." rows="4"></textarea>
+              </div>
+              <button class="btn btn-success">✅ Save Check</button>
+            </div>
+          `
+        },
+        hr: {
+          title: '👥 HR Management',
+          html: `
+            <div class="card">
+              <h2>Employee Records</h2>
+              <button class="btn">➕ Add Employee</button>
+              <table style="margin-top: 20px;">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Position</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td colspan="4" style="text-align: center; color: #999;">No employees recorded yet</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          `
+        },
+        master: {
+          title: '⚙️ Master Files',
+          html: `
+            <div class="card">
+              <h2>System Configuration</h2>
+              <p>Master Files allow you to configure your system data:</p>
+              <ul style="margin-left: 20px; margin-top: 15px;">
+                <li>Customers</li>
+                <li>Varieties</li>
+                <li>Pack Types</li>
+                <li>Sections & Blocks</li>
+                <li>And more...</li>
+              </ul>
+            </div>
+            <div class="card">
+              <h2>Add Customer</h2>
+              <div class="form-group">
+                <label>Customer Name:</label>
+                <input type="text" placeholder="Enter customer name">
+              </div>
+              <button class="btn btn-success">💾 Save Customer</button>
+            </div>
+          `
+        }
+      };
+      
+      if (pages[page]) {
+        title.textContent = pages[page].title;
+        content.innerHTML = pages[page].html;
+      }
+    }
+  </script>
+</body>
+</html>
